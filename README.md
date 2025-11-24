@@ -136,7 +136,10 @@ Les variables sont validées avec Zod via `@t3-oss/env-nextjs` dans [env.mjs](en
 
 - [ ] Configurer le tracking analytics
 - [ ] Mettre en place le monitoring d'erreurs (Sentry)
-- [ ] Dashboard de métriques (MRR, users, etc.)
+- [ ] Mettre en place les scripts de métriques :
+  - [ ] Calcul MRR / ARR (via Stripe ou scripts dédiés)
+  - [ ] Nombre d'abonnés actifs
+  - [ ] Éventuellement churn / upgrades / downgrades
 
 ### Déploiement
 
