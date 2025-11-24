@@ -1,36 +1,176 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Void Factory Starter
 
-## Getting Started
+Starter template pour les projets SaaS de Void Factory. Une coquille complète et opinionée pour démarrer rapidement un nouveau projet.
 
-First, run the development server:
+## Tech Stack
+
+### Core
+
+- **Next.js 16** - App Router, React Server Components
+- **React 19** - Avec React Compiler
+- **TypeScript 5.9** - Configuration stricte
+- **Tailwind CSS 4** - Styling utility-first
+
+### Backend & Data
+
+- **Supabase** - Auth, Database, Storage
+- **Stripe** - Paiements et abonnements
+- **React Query** - Server state management
+
+### UI & Animations
+
+- **Lucide React** - Icônes
+- **Motion** - Animations
+- **CVA + Tailwind Merge** - Variants de composants
+- **clsx** - Class conditionnelles
+
+### Tooling
+
+- **pnpm** - Package manager
+- **ESLint 9** - Linting (flat config)
+- **Prettier** - Formatting
+- **Vitest** - Unit testing
+- **Playwright** - E2E testing
+- **semantic-release** - Versioning automatique
+- **t3-env** - Variables d'environnement typées avec Zod
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Cloner le template
+git clone https://github.com/void-factory/voidfactory-starter.git mon-projet
+cd mon-projet
+
+# Installer les dépendances
+pnpm install
+
+# Configurer l'environnement
+cp .env.example .env.local
+
+# Lancer le serveur de dev
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts disponibles
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script               | Description                            |
+| -------------------- | -------------------------------------- |
+| `pnpm dev`           | Serveur de développement               |
+| `pnpm build`         | Build de production                    |
+| `pnpm start`         | Lancer le build de production          |
+| `pnpm lint`          | Vérifier le linting                    |
+| `pnpm format`        | Formatter le code (ESLint + Prettier)  |
+| `pnpm test`          | Lancer les tests                       |
+| `pnpm test:watch`    | Tests en mode watch                    |
+| `pnpm test:coverage` | Tests avec couverture                  |
+| `pnpm release`       | Release automatique (semantic-release) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure du projet
 
-## Learn More
+```
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # Layout principal
+│   ├── page.tsx           # Page d'accueil
+│   ├── providers.tsx      # Providers React (Query, etc.)
+│   └── page.test.tsx      # Tests de la page
+├── lib/
+│   ├── stripe/            # Configuration Stripe
+│   │   └── stripe.ts
+│   └── supabase/          # Client Supabase
+│       └── client.ts
+├── env.mjs                # Variables d'environnement typées
+├── vitest.config.ts       # Configuration Vitest
+├── eslint.config.mjs      # Configuration ESLint (flat)
+├── prettier.config.mjs    # Configuration Prettier
+└── .releaserc.json        # Configuration semantic-release
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Variables d'environnement
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Créer un fichier `.env.local` avec les variables suivantes :
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...
 
-## Deploy on Vercel
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Database (optionnel)
+DATABASE_URL=postgresql://...
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Les variables sont validées avec Zod via `@t3-oss/env-nextjs` dans [env.mjs](env.mjs).
+
+## Checklist nouveau projet
+
+### Configuration initiale
+
+- [ ] Renommer le projet dans `package.json`
+- [ ] Mettre à jour ce README
+- [ ] Créer le repo GitHub
+- [ ] Configurer les secrets GitHub Actions
+
+### Supabase
+
+- [ ] Créer le projet sur [supabase.com](https://supabase.com)
+- [ ] Récupérer l'URL et les clés API
+- [ ] Configurer les providers OAuth :
+  - [ ] Google
+  - [ ] Apple
+- [ ] Créer le schéma de base de données
+
+### Stripe
+
+- [ ] Créer le compte sur [stripe.com](https://stripe.com)
+- [ ] Récupérer les clés API (test puis live)
+- [ ] Créer les produits et prix
+- [ ] Configurer le webhook vers `/api/stripe/webhook`
+- [ ] Tester avec Stripe CLI
+
+### Observabilité
+
+- [ ] Configurer le tracking analytics
+- [ ] Mettre en place le monitoring d'erreurs (Sentry)
+- [ ] Dashboard de métriques (MRR, users, etc.)
+
+### Déploiement
+
+- [ ] Configurer Vercel
+- [ ] Ajouter les variables d'environnement
+- [ ] Configurer le domaine
+- [ ] Activer les GitHub Actions
+
+## Conventions
+
+### Commits
+
+Ce projet utilise [Conventional Commits](https://www.conventionalcommits.org/) pour le versioning automatique :
+
+```
+feat: nouvelle fonctionnalité
+fix: correction de bug
+docs: documentation
+style: formatting
+refactor: refactoring
+test: ajout de tests
+chore: maintenance
+```
+
+### Branches
+
+- `main` - Production, protégée
+- `feat/*` - Nouvelles fonctionnalités
+- `fix/*` - Corrections
+
+## License
+
+Propriétaire - Void Factory
+
+---
+
+Made with care by Void Factory
